@@ -80,7 +80,8 @@ return newArr.slice(0,5);
 function getMostPopularAuthors(books, authors) {
   return authors.map(author => {
     // loop through the author array
-    author.count = books.filter(book => book.authorId === author.id).reduce((author, book) => author + (book.borrows && book.borrows.length || 0), 0);
+    author.count = books.filter(book => book.authorId === author.id)
+    .reduce((author, book) => author + (book.borrows && book.borrows.length || 0), 0);
     // to get the count, filter the book array and then reduce it to a sum of all matching books borrows array length
     author.name = `${author.name.first} ${author.name.last}`;
     delete author.id
