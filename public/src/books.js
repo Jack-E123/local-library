@@ -19,14 +19,7 @@ function findAccountById(accounts, id) {
   return accounts.find((account) => account.id == id); 
 }
 function getBorrowersForBook(book, accounts) {
-  /*let borrowers = [];
-  for (let i = 0; i < book.borrows.length; i++){
-    for (let j in accounts){
-      if (j[id] == books[i].borrows)
-    }
-  }*/
-
-  let transactions = book.borrows;
+    let transactions = book.borrows;
   let result = transactions.map((transaction)=> {
     //calling helper function
     const accInfo = findAccountById(accounts, transaction.id) 

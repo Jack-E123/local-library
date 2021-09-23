@@ -17,23 +17,21 @@ function getBooksBorrowedCount(books) {
 }
 
 function getMostCommonGenres(books) {
-  //Goal: return an array of 5 or fewer objects of the most common genres, most to least
-  //Goal:{name: "Nonfiction", count: 9}
-  //
-  const result = books.reduce((accum, book) => {
+  
+  const result = books.reduce((acc, book) => {
     const genre = book.genre;
-    const genreInfo = accum.find((element) => element.name === genre);
+    const genreInfo = acc.find((element) => element.name === genre);
     if (!genreInfo) {
       const newGenreInfo = {
         name: genre,
         count: 1,
       };
-      accum.push(newGenreInfo);
+      acc.push(newGenreInfo);
     } else {
       genreInfo.count++;
     }
 
-    return accum;
+    return acc;
   }, []);
   return result.sort((genreA, genreB) => genreB.count - genreA.count).slice(0,5);
   
@@ -41,19 +39,7 @@ function getMostCommonGenres(books) {
 }
 
 function getMostPopularBooks(books) {
-  /*const popularBooks = books.map((book) => ({
-    name: book.title,
-    count: book.borrows.length,
-  }));
-  popularBooks.sort((bookA, bookB) => bookB.count - bookA.count);
-  return popularBooks.slice(0, 5);*/
-
-  /*return books.map((book) => ({
-  name: book.title,
-  count: book.borrows.length,
-})).sort((bookA, bookB) => bookB.count - bookA.count).slice(0,5);*/ 
-
-  const groupById = books.reduce((acc, book) => {
+ const groupById = books.reduce((acc, book) => {
     acc[book.id] = book.borrows.length;
     return acc
 }, {});
@@ -79,15 +65,16 @@ return newArr.slice(0,5);
 
 function getMostPopularAuthors(books, authors) {
   return authors.map(author => {
-    // loop through the author array
-    author.count = books.filter(book => book.authorId === author.id)
-    .reduce((author, book) => author + (book.borrows && book.borrows.length || 0), 0);
-    // to get the count, filter the book array and then reduce it to a sum of all matching books borrows array length
+    
+    author.count = books.filter(book => book.authorId === author.id).reduce((author, book) => author + (book.borrows && book.borrows.length || 0), 0);
+    
     author.name = `${author.name.first} ${author.name.last}`;
     delete author.id
-    // remove the id since that isn't part of the desired result
+    
     return author
   }).sort((a, b) => b.count - a.count).slice(0, 5)
+
+  
 }
 
 module.exports = {
